@@ -74,8 +74,17 @@ namespace Forum.Controllers
             };
             return View(model);
         }
-
-        //
+        //[HttpGet]
+        //public ActionResult AddThread()
+        //{
+            
+        //}
+        //[HttpPost]
+        //public ActionResult AddThread()
+        //{
+            
+        //}
+        ////
         // POST: /Manage/RemoveLogin
         [HttpPost]
         [ValidateAntiForgeryToken]
