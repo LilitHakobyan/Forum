@@ -12,5 +12,11 @@ namespace Forum.Entity
         public string TextDescription { get; set; }
         public List<Post> ThreadPosts { get; set; }
         public int UserId { get; set; }
+        public int  TopicId { get; set; }
+
+        public Thread()
+        {
+            ThreadPosts=new List<Post>();
+        }
     }
 }

@@ -48,27 +48,27 @@ namespace Forum.Models
                 cmd.Parameters.AddWithValue("id", id);
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
                         name = (string) reader["Name"];
                     }
                 }
             }
-            return new Topic {Id = id, Name = name,TopicThreads =GetTopicThreads(id) };
+            return new Topic {Id = id, Name = name,TopicThreads =  await GetTopicThreads(id) };
         }
 
-        public List<Thread> GetTopicThreads(int TopicId)
+        public async Task<List<Thread>> GetTopicThreads(int TopicId)
         {
               List<Thread> threads=new List<Thread>();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = "Select Id,Name,TextDescription from Threads WHERE Threads.TopicsId=@id";
+                cmd.CommandText = "Select Id,Name,TextDescription from Threads WHERE Threads.TopicId=@id";
                 cmd.Parameters.AddWithValue("id", TopicId);
-                using (var reader = cmd.ExecuteReader())
+                using (var reader =  await cmd.ExecuteReaderAsync())
                 {
-                    while (reader.Read())
+                    while (await reader.ReadAsync())
                     {
-                        threads.Add(new Thread()
+                        threads.Add(new Thread
                         {
                             Id = (int)reader[0],
                             Name = (string)reader[1],
@@ -80,16 +80,35 @@ namespace Forum.Models
             return threads;
         }
 
-        public void CreateTopic(string Name)
+        public async Task CreateTopicAsync(string Name)
         {
-            using (var cmd = _repo.CreateCommand())
+            using (var cmd =  _repo.CreateCommand())
             {
                 cmd.CommandText = $"Insert into Topics (Name) Values('{Name}')";
-                cmd.ExecuteNonQuery();
+                await  cmd.ExecuteNonQueryAsync();
                 _repo.SaveChanges();
             }
         }
 
+        public async Task UpdateTopic(Topic topic)
+        {
+            using (var cmd = _repo.CreateCommand())
+            {
+                cmd.CommandText = $"Update  Topics Set Name= '{topic.Name}' Where Id={topic.Id}";
+                await cmd.ExecuteNonQueryAsync();
+                _repo.SaveChanges();
+            }
+        }
+
+        public async Task Remove(int id)
+        {
+            using (var cmd = _repo.CreateCommand())
+            {
+                cmd.CommandText = $"Delete From  Topics  Where Id={id}";
+                await cmd.ExecuteNonQueryAsync();
+                _repo.SaveChanges();
+            }
+        }
         public void Dispose()
         {
             _repo.Dispose();
