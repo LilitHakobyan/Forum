@@ -14,6 +14,7 @@ namespace Forum.Models
         public Repasitory(string connection)
         {
             _connection  = new SqlConnection(connection);
+            _connection.Open();
             _transaction = _connection.BeginTransaction();
         }
 

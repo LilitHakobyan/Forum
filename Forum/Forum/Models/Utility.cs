@@ -7,8 +7,6 @@ namespace Forum.Models
 {
     public static class Utility
     {
-        public static string connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;" +
-                                                "Initial Catalog = ForumDB; " +
-                                                "Integrated Security = True";
+        public static string connectionString = @"Data Source=(LocalDB)\\MSSQLLocalDB; Initial Catalog = ForumDB;Integrated Security = True";
     }
 }
