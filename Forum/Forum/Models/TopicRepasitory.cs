@@ -29,10 +29,12 @@ namespace Forum.Models
                 {
                     while (reader.Read())
                     {
+                        int ID = (int) reader["Id"];
                         topics.Add(new Topic()
                         {
-                            Id=(int)reader["Id"],
-                            Name = (string)reader["Name"]
+                            Id= ID,
+                            Name = (string)reader["Name"],
+                           // TopicThreads = await GetTopicThreads(ID)
                         });
                     }
                 }

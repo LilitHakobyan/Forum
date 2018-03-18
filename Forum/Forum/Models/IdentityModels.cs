@@ -29,7 +29,5 @@ namespace Forum.Models
         {
             return new ApplicationDbContext();
         }
-
-        public System.Data.Entity.DbSet<Forum.Entity.Topic> Topics { get; set; }
     }
 }
