@@ -34,9 +34,13 @@ namespace Forum.Models
                         {
                             Id= ID,
                             Name = (string)reader["Name"],
-                           // TopicThreads = await GetTopicThreads(ID)
                         });
                     }
+                    _repo.SaveChanges();
+                }
+                foreach (var topic in topics)
+                {
+                    topic.TopicThreads = await GetTopicThreads(topic.Id);
                 }
             }
             return topics;
@@ -46,14 +50,14 @@ namespace Forum.Models
             string name=string.Empty;
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = "SELECT Name FROM Topics WHERE Id = @id";
-                cmd.Parameters.AddWithValue("id", id);
+                cmd.CommandText = $"SELECT Name FROM Topics WHERE Id = {id}";
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
                         name = (string) reader["Name"];
                     }
+                    _repo.SaveChanges();
                 }
             }
             return new Topic {Id = id, Name = name,TopicThreads =  await GetTopicThreads(id) };
@@ -64,8 +68,7 @@ namespace Forum.Models
               List<Thread> threads=new List<Thread>();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = "Select Id,Name,TextDescription from Threads WHERE Threads.TopicId=@id";
-                cmd.Parameters.AddWithValue("id", TopicId);
+                cmd.CommandText = $"Select Id,Name,TextDescription from Threads WHERE Threads.TopicId={TopicId}";
                 using (var reader =  await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())

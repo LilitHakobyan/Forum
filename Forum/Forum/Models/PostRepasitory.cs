@@ -31,7 +31,7 @@ namespace Forum.Models
                         {
                             Id = ID,
                             Text = reader["Text"].ToString(),
-                            ThreadId = Int32.Parse(reader["ThreadId"].ToString()),
+                            ThreadId = int.Parse(reader["ThreadId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
                         });
                     }
@@ -53,7 +53,7 @@ namespace Forum.Models
                         {
                             Id = id,
                             Text = reader["Text"].ToString(),
-                            ThreadId = Int32.Parse(reader["ThreadId"].ToString()),
+                            ThreadId = int.Parse(reader["ThreadId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
                         };
                     }

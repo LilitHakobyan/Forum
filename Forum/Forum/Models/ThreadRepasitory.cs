@@ -35,10 +35,15 @@ namespace Forum.Models
                             TextDescription = reader["TextDescription"].ToString(),
                             TopicId = Int32.Parse(reader["TopicId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
-                            //ThreadPosts = await GetThreadPostsAsync(ID)
                         });
                     }
                 }
+                
+            }
+
+            foreach (var thread in threads)
+            {
+                thread.ThreadPosts = await GetThreadPostsAsync(thread.Id);
             }
             return threads;
         }
@@ -48,7 +53,6 @@ namespace Forum.Models
             using (var cmd = _repo.CreateCommand())
             {
                 cmd.CommandText = $"SELECT [Name],TextDescription,TopicId,CreatedAt,UserId FROM Threads WHERE Id = {id}";
-                cmd.Parameters.AddWithValue("id", id);
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -62,30 +66,32 @@ namespace Forum.Models
                             TextDescription = reader["TextDescription"].ToString(),
                             TopicId = Int32.Parse(reader["TopicId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
-                          //  ThreadPosts = await GetThreadPostsAsync(id)
                         };
                     }
+                    _repo.SaveChanges();
                 }
+                thread.ThreadPosts = await GetThreadPostsAsync(id);
             }
             return thread;
         }
 
         public async Task<List<Post>> GetThreadPostsAsync(int ThreadId)
         {
+            
             List<Post> posts = new List<Post>();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText =$"Select Id,Text,ThreadId,UserId from Posts WHERE Post.ThreadId={ThreadId}";
+                cmd.CommandText = $"Select Id,[Text],ThreadId,UserId from Posts WHERE ThreadId={ThreadId}";
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
                         posts.Add(new Post()
                         {
-                            Id = (int)reader["Id"],
-                            Text = (string)reader["Text"],
-                            ThreadId = (int)reader["ThreadId"],
-                            UserId = (Guid)reader["UserId"]
+                            Id = int.Parse(reader["Id"].ToString()),
+                            Text = reader["Text"].ToString(),
+                            ThreadId = int.Parse(reader["ThreadId"].ToString()),
+                            UserId = Guid.Parse(reader["UserId"].ToString())
                         });
                     }
                 }

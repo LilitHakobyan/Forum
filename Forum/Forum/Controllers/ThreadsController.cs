@@ -21,8 +21,13 @@ namespace Forum.Controllers
         // GET: Threads
         public async Task<ActionResult> Index(int id)
         {
+            var views = await threadRepasitory.GetThreadsAsync(id);
+            //foreach (var view in views)
+            //{
+            //    view.ThreadPosts =await threadRepasitory.GetThreadPostsAsync(view.Id);
+            //}
             topicId = id;
-            return View(await threadRepasitory.GetThreadsAsync(id));
+            return View(views);
         }
 
         // GET: Threads/Details/5
