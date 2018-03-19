@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Forum.Entity.Thread>
+﻿@model IEnumerable<Forum.Entity.Post>
 
 @{
     ViewBag.Title = "Index";
@@ -12,16 +12,13 @@
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Text)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TextDescription)
+            @Html.DisplayNameFor(model => model.ThreadId)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.UserId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TopicId)
         </th>
         <th></th>
     </tr>
@@ -29,17 +26,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.RouteLink(item.Name, new { controller = "Posts", action = "Index", id = item.Id })
-            @*@Html.DisplayFor(modelItem => item.Name)*@
+            @Html.DisplayFor(modelItem => item.Text)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TextDescription)
+            @Html.DisplayFor(modelItem => item.ThreadId)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TopicId)
         </td>
         <td>
             @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |

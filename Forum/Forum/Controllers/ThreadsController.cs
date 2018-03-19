@@ -52,7 +52,8 @@ namespace Forum.Controllers
             if (ModelState.IsValid)
             {
                 await threadRepasitory.CreateThreadAsync(thread.Name, thread.TextDescription, topicId, Guid.Parse(User.Identity.GetUserId()));
-                return RedirectToAction("Index");
+                // return RedirectToAction("Index",topicId);
+                return RedirectToRoute(new { controller = "Threads", action = "Index",id=topicId });
             }
 
             return View(thread);
@@ -79,7 +80,8 @@ namespace Forum.Controllers
             if (ModelState.IsValid)
             {
                 await  threadRepasitory.UpdateThread(thread);
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToRoute(new { controller = "Threads", action = "Index", id = topicId });
             }
             return View(thread);
         }
@@ -101,7 +103,8 @@ namespace Forum.Controllers
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             await  threadRepasitory.Remove(id);
-            return RedirectToAction("Index");
+            //  return RedirectToAction("Index");
+            return RedirectToRoute(new { controller = "Threads", action = "Index", id = topicId });
         }
 
         protected override void Dispose(bool disposing)

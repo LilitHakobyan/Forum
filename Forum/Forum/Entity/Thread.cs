@@ -10,7 +10,7 @@ namespace Forum.Entity
         public int Id { get; set; }
         public string Name { get; set; }
         public string TextDescription { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } 
         public List<Post> ThreadPosts { get; set; }
         public Guid UserId { get; set; }
         public int TopicId { get; set; }

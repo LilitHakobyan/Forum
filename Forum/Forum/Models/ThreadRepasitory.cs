@@ -30,10 +30,10 @@ namespace Forum.Models
                         threads.Add(new Thread()
                         {
                             Id = ID,
-                            Name = (string)reader["Name"],
+                            Name = reader["Name"].ToString(),
                             CreatedAt = DateTime.Parse(reader["CreatedAt"].ToString()),
-                            TextDescription = (string)reader["TextDescription"],
-                            TopicId = (int)reader["TopicId"],
+                            TextDescription = reader["TextDescription"].ToString(),
+                            TopicId = Int32.Parse(reader["TopicId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
                             //ThreadPosts = await GetThreadPostsAsync(ID)
                         });
@@ -47,22 +47,22 @@ namespace Forum.Models
             Thread thread = new Thread();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = "SELECT [Name],TextDescription,TopicId,CreatedAt,UserId FROM Threads WHERE Id = @id";
+                cmd.CommandText = $"SELECT [Name],TextDescription,TopicId,CreatedAt,UserId FROM Threads WHERE Id = {id}";
                 cmd.Parameters.AddWithValue("id", id);
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
                     {
-                        int ID = (int)reader["Id"];
+                        //int ID = (int)reader["Id"];
                         thread = new Thread()
                         {
-                            Id = ID,
-                            Name = (string)reader["Name"],
-                            CreatedAt = (DateTime)reader["CreatedAt"],
-                            TextDescription = (string)reader["TextDescription"],
-                            TopicId = (int)reader["TopicId"],
-                            UserId = (Guid)reader["UserId"],
-                            ThreadPosts = await GetThreadPostsAsync(ID)
+                            Id = id,
+                            Name = reader["Name"].ToString(),
+                            CreatedAt = DateTime.Parse(reader["CreatedAt"].ToString()),
+                            TextDescription = reader["TextDescription"].ToString(),
+                            TopicId = Int32.Parse(reader["TopicId"].ToString()),
+                            UserId = Guid.Parse(reader["UserId"].ToString()),
+                          //  ThreadPosts = await GetThreadPostsAsync(id)
                         };
                     }
                 }
@@ -75,8 +75,7 @@ namespace Forum.Models
             List<Post> posts = new List<Post>();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = "Select Id,Text,ThreadId,UserId from Posts WHERE Post.ThreadId=@id";
-                cmd.Parameters.AddWithValue("id", ThreadId);
+                cmd.CommandText =$"Select Id,Text,ThreadId,UserId from Posts WHERE Post.ThreadId={ThreadId}";
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())

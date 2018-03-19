@@ -194,6 +194,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PostsController.cs" />
     <Compile Include="Controllers\ThreadsController.cs" />
     <Compile Include="Controllers\TopicsController.cs" />
     <Compile Include="Entity\Post.cs" />
@@ -210,6 +211,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PostRepasitory.cs" />
     <Compile Include="Models\Repasitory.cs" />
     <Compile Include="Models\ThreadRepasitory.cs" />
     <Compile Include="Models\TopicRepasitory.cs" />
@@ -283,6 +285,11 @@
     <Content Include="Views\Threads\Details.cshtml" />
     <Content Include="Views\Threads\Edit.cshtml" />
     <Content Include="Views\Threads\Index.cshtml" />
+    <Content Include="Views\Posts\Create.cshtml" />
+    <Content Include="Views\Posts\Delete.cshtml" />
+    <Content Include="Views\Posts\Details.cshtml" />
+    <Content Include="Views\Posts\Edit.cshtml" />
+    <Content Include="Views\Posts\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

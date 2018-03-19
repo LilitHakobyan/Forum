@@ -1,4 +1,4 @@
-﻿@model Forum.Entity.Thread
+﻿@model Forum.Entity.Post
 
 @{
     ViewBag.Title = "Details";
@@ -7,23 +7,23 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Thread</h4>
+    <h4>Post</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            @Html.DisplayNameFor(model => model.Text)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.Name)
+            @Html.DisplayFor(model => model.Text)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.TextDescription)
+            @Html.DisplayNameFor(model => model.ThreadId)
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.TextDescription)
+            @Html.DisplayFor(model => model.ThreadId)
         </dd>
 
         @*<dt>
@@ -32,14 +32,6 @@
 
         <dd>
             @Html.DisplayFor(model => model.UserId)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.TopicId)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.TopicId)
         </dd>*@
 
     </dl>

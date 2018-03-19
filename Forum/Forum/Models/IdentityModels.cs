@@ -29,5 +29,6 @@ namespace Forum.Models
         {
             return new ApplicationDbContext();
         }
+
     }
 }
