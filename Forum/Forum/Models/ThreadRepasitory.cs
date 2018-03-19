@@ -8,7 +8,7 @@ using Forum.Entity;
 
 namespace Forum.Models
 {
-    public class ThreadRepasitory:IDisposable
+    public class ThreadRepasitory : IDisposable
     {
         private Repasitory _repo;
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
@@ -26,16 +26,16 @@ namespace Forum.Models
                 {
                     while (await reader.ReadAsync())
                     {
-                        int ID = (int) reader["Id"];
+                        int ID = (int)reader["Id"];
                         threads.Add(new Thread()
                         {
                             Id = ID,
                             Name = (string)reader["Name"],
-                            CreatedAt = (DateTime)reader["CreatedAt"],
+                            CreatedAt = DateTime.Parse(reader["CreatedAt"].ToString()),
                             TextDescription = (string)reader["TextDescription"],
                             TopicId = (int)reader["TopicId"],
-                            UserId = (Guid)reader["UserId"],
-                            ThreadPosts = await GetThreadPostsAsync(ID)
+                            UserId = Guid.Parse(reader["UserId"].ToString()),
+                            //ThreadPosts = await GetThreadPostsAsync(ID)
                         });
                     }
                 }
@@ -44,7 +44,7 @@ namespace Forum.Models
         }
         public async Task<Thread> GetById(int id)
         {
-            Thread thread=new Thread();
+            Thread thread = new Thread();
             using (var cmd = _repo.CreateCommand())
             {
                 cmd.CommandText = "SELECT [Name],TextDescription,TopicId,CreatedAt,UserId FROM Threads WHERE Id = @id";
@@ -54,7 +54,7 @@ namespace Forum.Models
                     while (await reader.ReadAsync())
                     {
                         int ID = (int)reader["Id"];
-                       thread= new Thread()
+                        thread = new Thread()
                         {
                             Id = ID,
                             Name = (string)reader["Name"],
@@ -94,11 +94,11 @@ namespace Forum.Models
             return posts;
         }
 
-        public async Task CreateThreadAsync(string Name,string Text,int TopicId,Guid UserId)
+        public async Task CreateThreadAsync(string Name, string Text, int TopicId, Guid UserId)
         {
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = $"Insert into Threads (Name,TextDescription,TopicId,UserId,CreatedAt) Values('{Name}','{Text}',{TopicId},{UserId},{DateTime.Now})";
+                cmd.CommandText = $"Insert into Threads (Name,TextDescription,TopicId,UserId,CreatedAt) Values('{Name}','{Text}',{TopicId},'{UserId}','{DateTime.Now:s}')";
                 await cmd.ExecuteNonQueryAsync();
                 _repo.SaveChanges();
             }

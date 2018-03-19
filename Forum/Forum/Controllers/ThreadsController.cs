@@ -17,9 +17,11 @@ namespace Forum.Controllers
     {
         private ThreadRepasitory threadRepasitory = new ThreadRepasitory();
 
+        private static int topicId;
         // GET: Threads
         public async Task<ActionResult> Index(int id)
         {
+            topicId = id;
             return View(await threadRepasitory.GetThreadsAsync(id));
         }
 
@@ -45,11 +47,11 @@ namespace Forum.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Id,Name,TextDescription,UserId,TopicId")] Thread thread)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,TextDescription,UserId,TopicId")] Thread thread)
         {
             if (ModelState.IsValid)
             {
-                //threadRepasitory.CreateThreadAsync(thread.Name,thread.TextDescription,User.Identity.GetUserId()) ???????????
+                await threadRepasitory.CreateThreadAsync(thread.Name, thread.TextDescription, topicId, Guid.Parse(User.Identity.GetUserId()));
                 return RedirectToAction("Index");
             }
 
