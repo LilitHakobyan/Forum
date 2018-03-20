@@ -26,7 +26,7 @@ namespace Forum.Controllers
             var views = await threadRepasitory.GetThreadsAsync(id);
             _topicName = topicName;
             ViewBag.TopicName = topicName;
-                topicId = id;
+            topicId = id;
             return View(views);
         }
 
@@ -56,7 +56,7 @@ namespace Forum.Controllers
         {
             if (ModelState.IsValid)
             {
-                await threadRepasitory.CreateThreadAsync(thread.Name, thread.TextDescription, topicId, Guid.Parse(User.Identity.GetUserId()));
+                await threadRepasitory.CreateThreadAsync(thread.Name, thread.TextDescription, topicId, Guid.Parse(User.Identity.GetUserId()), User.Identity.GetUserName());
                 // return RedirectToAction("Index",topicId);
                 return RedirectToRoute(new { controller = "Threads", action = "Index",id=topicId });
             }

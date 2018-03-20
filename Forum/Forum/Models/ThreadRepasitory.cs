@@ -21,7 +21,7 @@ namespace Forum.Models
             List<Thread> threads = new List<Thread>();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = $"SELECT Id,[Name],TextDescription,TopicId,CreatedAt,UserId  FROM Threads Where TopicId={topicId}";
+                cmd.CommandText = $"SELECT Id,[Name],TextDescription,TopicId,CreatedAt,UserId,UserName  FROM Threads Where TopicId={topicId}";
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -35,6 +35,7 @@ namespace Forum.Models
                             TextDescription = reader["TextDescription"].ToString(),
                             TopicId = Int32.Parse(reader["TopicId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
+                            UserName = reader["UserName"].ToString()
                         });
                     }
                 }
@@ -52,7 +53,7 @@ namespace Forum.Models
             Thread thread = new Thread();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = $"SELECT [Name],TextDescription,TopicId,CreatedAt,UserId FROM Threads WHERE Id = {id}";
+                cmd.CommandText = $"SELECT [Name],TextDescription,TopicId,CreatedAt,UserId,UserName FROM Threads WHERE Id = {id}";
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -66,6 +67,7 @@ namespace Forum.Models
                             TextDescription = reader["TextDescription"].ToString(),
                             TopicId = Int32.Parse(reader["TopicId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
+                            UserName = reader["UserName"].ToString()
                         };
                     }
                    // _repo.SaveChanges();
@@ -81,7 +83,7 @@ namespace Forum.Models
             List<Post> posts = new List<Post>();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = $"Select Id,[Text],ThreadId,UserId from Posts WHERE ThreadId={ThreadId}";
+                cmd.CommandText = $"Select Id,[Text],ThreadId,UserId,UserName from Posts WHERE ThreadId={ThreadId}";
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -91,7 +93,8 @@ namespace Forum.Models
                             Id = int.Parse(reader["Id"].ToString()),
                             Text = reader["Text"].ToString(),
                             ThreadId = int.Parse(reader["ThreadId"].ToString()),
-                            UserId = Guid.Parse(reader["UserId"].ToString())
+                            UserId = Guid.Parse(reader["UserId"].ToString()),
+                            UserName = reader["UserName"].ToString()
                         });
                     }
                 }
@@ -99,11 +102,11 @@ namespace Forum.Models
             return posts;
         }
 
-        public async Task CreateThreadAsync(string Name, string Text, int TopicId, Guid UserId)
+        public async Task CreateThreadAsync(string Name, string Text, int TopicId, Guid UserId,string UserName)
         {
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = $"Insert into Threads (Name,TextDescription,TopicId,UserId,CreatedAt) Values('{Name}','{Text}',{TopicId},'{UserId}','{DateTime.Now:s}')";
+                cmd.CommandText = $"Insert into Threads (Name,TextDescription,TopicId,UserId,CreatedAt,UserName) Values('{Name}','{Text}',{TopicId},'{UserId}','{DateTime.Now:s}','{UserName}')";
                 await cmd.ExecuteNonQueryAsync();
                 _repo.SaveChanges();
             }

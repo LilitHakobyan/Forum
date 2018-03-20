@@ -21,7 +21,7 @@ namespace Forum.Models
             List<Post> posts = new List<Post>();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = $"SELECT Id,Text,ThreadId,UserId  FROM Posts Where ThreadId={threadId}";
+                cmd.CommandText = $"SELECT Id,Text,ThreadId,UserId,UserName  FROM Posts Where ThreadId={threadId}";
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -33,6 +33,7 @@ namespace Forum.Models
                             Text = reader["Text"].ToString(),
                             ThreadId = int.Parse(reader["ThreadId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
+                            UserName = reader["UserName"].ToString()
                         });
                     }
                 }
@@ -44,7 +45,7 @@ namespace Forum.Models
             Post post = new Post();
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = $"SELECT Text,ThreadId,UserId  FROM Posts Where Id = {id}";
+                cmd.CommandText = $"SELECT Text,ThreadId,UserId,UserName  FROM Posts Where Id = {id}";
                 using (var reader = await cmd.ExecuteReaderAsync())
                 {
                     while (await reader.ReadAsync())
@@ -55,6 +56,8 @@ namespace Forum.Models
                             Text = reader["Text"].ToString(),
                             ThreadId = int.Parse(reader["ThreadId"].ToString()),
                             UserId = Guid.Parse(reader["UserId"].ToString()),
+                            UserName = reader["UserName"].ToString()
+                            
                         };
                     }
                 }
@@ -62,11 +65,11 @@ namespace Forum.Models
             return post;
         }
  
-        public async Task CreatePostAsync(string Text, int threadId, Guid userId)
+        public async Task CreatePostAsync(string Text, int threadId, Guid userId,string UserName)
         {
             using (var cmd = _repo.CreateCommand())
             {
-                cmd.CommandText = $"Insert into Posts (Text,ThreadId,UserId) Values('{Text}',{threadId},'{userId}')";
+                cmd.CommandText = $"Insert into Posts (Text,ThreadId,UserId,UserName) Values('{Text}',{threadId},'{userId}','{UserName}')";
                 await cmd.ExecuteNonQueryAsync();
                 _repo.SaveChanges();
             }

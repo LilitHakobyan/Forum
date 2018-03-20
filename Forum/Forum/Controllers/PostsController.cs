@@ -53,7 +53,7 @@ namespace Forum.Controllers
         {
             if (ModelState.IsValid)
             {
-                await postRepasitory.CreatePostAsync(post.Text, threadId, Guid.Parse(User.Identity.GetUserId()));
+                await postRepasitory.CreatePostAsync(post.Text, threadId, Guid.Parse(User.Identity.GetUserId()),User.Identity.GetUserName());
                 //return RedirectToAction("Index");
                 return RedirectToRoute(new { controller = "Posts", action = "Index", id = threadId });
             }

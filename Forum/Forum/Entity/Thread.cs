@@ -13,6 +13,7 @@ namespace Forum.Entity
         public DateTime CreatedAt { get; set; } 
         public List<Post> ThreadPosts { get; set; }
         public Guid UserId { get; set; }
+        public string UserName { get; set; }
         public int TopicId { get; set; }
 
         public Thread()
