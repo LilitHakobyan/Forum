@@ -38,7 +38,6 @@ namespace Forum.Models
                     }
                
                 }
-                   _repo.SaveChanges();
                 foreach (var topic in topics)
                 {
                     topic.TopicThreads = await GetTopicThreads(topic.Id);

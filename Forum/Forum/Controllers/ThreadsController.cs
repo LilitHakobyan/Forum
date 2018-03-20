@@ -26,7 +26,7 @@ namespace Forum.Controllers
             var views = await threadRepasitory.GetThreadsAsync(id);
             _topicName = topicName;
             ViewBag.TopicName = topicName;
-            topicId = id;
+                topicId = id;
             return View(views);
         }
 

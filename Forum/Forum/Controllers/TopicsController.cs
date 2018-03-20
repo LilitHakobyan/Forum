@@ -86,10 +86,7 @@ namespace Forum.Controllers
         // GET: Topics/Delete/5
         public async Task<ActionResult> Delete(int id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
+           
             Topic topic = await topicRepositry.GetById(id);//Topics.FindAsync(id));
             if (topic == null)
             {
