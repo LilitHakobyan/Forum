@@ -68,7 +68,7 @@ namespace Forum.Models
                             UserId = Guid.Parse(reader["UserId"].ToString()),
                         };
                     }
-                    _repo.SaveChanges();
+                   // _repo.SaveChanges();
                 }
                 thread.ThreadPosts = await GetThreadPostsAsync(id);
             }

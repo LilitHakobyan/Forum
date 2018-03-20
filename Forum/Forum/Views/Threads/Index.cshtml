@@ -8,7 +8,10 @@
 <h2 style="font-weight: bold"> @ViewBag.TopicName</h2>
 
 <p>
+@if (User.Identity.GetUserId() != null)
+{
     @Html.ActionLink("Create New", "Create")
+}
 </p>
 <table class="table">
     <tr>
@@ -60,12 +63,16 @@
                 }
             </td>
             <td>
-                @if (item.UserId == Guid.Parse(User.Identity.GetUserId())&& User.Identity.Name != string.Empty)
+                @if (User.Identity.GetUserId()!=null)
                 {
-                    @Html.ActionLink("Edit| ", "Edit", new { id = item.Id })
-                    @Html.ActionLink("Details| ", "Details", new { id = item.Id })
-                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    if (item.UserId == Guid.Parse(User.Identity.GetUserId())|| User.IsInRole("admin") == true)
+                     {
+                         @Html.ActionLink("Edit| ", "Edit", new {id = item.Id})
+                         @Html.ActionLink("Details| ", "Details", new {id = item.Id})
+                         @Html.ActionLink("Delete", "Delete", new {id = item.Id})
+                     }
                 }
+               
             </td>
         </tr>
     }

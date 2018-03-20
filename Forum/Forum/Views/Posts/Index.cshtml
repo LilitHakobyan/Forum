@@ -11,7 +11,10 @@
 
 
 <p>
+@if (User.Identity.GetUserId() != null)
+{
     @Html.ActionLink("Reply", "Create")
+}
 </p>
 <table class="table">
     <tr>
@@ -36,11 +39,14 @@
                 @Html.DisplayFor(modelItem => item.UserId)
             </td>
             <td>
-            @if (item.UserId == Guid.Parse(User.Identity.GetUserId()))
+            @if (User.Identity.GetUserId()!=null)
             {
-                @Html.ActionLink("Edit |", "Edit", new {id = item.Id}) 
-                @Html.ActionLink("Details |", "Details", new {id = item.Id}) 
-                @Html.ActionLink("Delete ", "Delete", new {id = item.Id})
+                if (item.UserId == Guid.Parse(User.Identity.GetUserId())|| User.IsInRole("admin") == true)
+                {
+                    @Html.ActionLink("Edit |", "Edit", new {id = item.Id})
+                    @Html.ActionLink("Details |", "Details", new {id = item.Id})
+                    @Html.ActionLink("Delete ", "Delete", new {id = item.Id})
+                }
             }
             </td>
         </tr>

@@ -57,7 +57,7 @@ namespace Forum.Models
                     {
                         name = (string) reader["Name"];
                     }
-                    _repo.SaveChanges();
+                  //  _repo.SaveChanges();
                 }
             }
             return new Topic {Id = id, Name = name,TopicThreads =  await GetTopicThreads(id) };
