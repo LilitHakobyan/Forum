@@ -18,8 +18,11 @@ namespace Forum.Controllers
         private PostRepasitory postRepasitory = new PostRepasitory();
         private static int threadId;
         // GET: Posts
-        public async Task<ActionResult> Index(int id)
+        public async Task<ActionResult> Index(int id,string topic,string thread,string text)
         {
+            ViewBag.TopicName = topic;
+            ViewBag.ThreadName = thread;
+            ViewBag.Text = text;
             threadId = id;
             return View(await postRepasitory.GetPostsAsync(threadId));
         }

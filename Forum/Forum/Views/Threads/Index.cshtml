@@ -34,7 +34,11 @@
     {
         <tr>
             <td>
-                @Html.RouteLink(item.Name, new { controller = "Posts", action = "Index", id = item.Id })
+                @{
+                    string topicName = ViewBag.TopicName;
+                    @Html.RouteLink(item.Name, new {controller = "Posts", action = "Index", id = item.Id,topic=topicName,thread= item.Name,text=item.TextDescription})
+
+                }
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TextDescription)
