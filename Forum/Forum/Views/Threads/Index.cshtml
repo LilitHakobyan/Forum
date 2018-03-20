@@ -1,10 +1,11 @@
-﻿@model IEnumerable<Forum.Entity.Thread>
+﻿@using Microsoft.AspNet.Identity
+@model IEnumerable<Forum.Entity.Thread>
 
 @{
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2 style="font-weight: bold"> @ViewBag.TopicName</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -18,35 +19,51 @@
             @Html.DisplayNameFor(model => model.TextDescription)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.UserId)
+            <h5 style="font-weight: bold">Created by</h5>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TopicId)
+            <h5 style="font-weight: bold">Created at</h5>
+        </th>
+        <th>
+            <h5 style="font-weight: bold">Riplies</h5>
         </th>
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.RouteLink(item.Name, new { controller = "Posts", action = "Index", id = item.Id })
-            @*@Html.DisplayFor(modelItem => item.Name)*@
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TextDescription)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UserId)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TopicId)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.RouteLink(item.Name, new { controller = "Posts", action = "Index", id = item.Id })
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TextDescription)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(model => item.CreatedAt)
+            </td>
+            <td>
+                @if (item.ThreadPosts.Count > 0)
+                {
+                    @Html.DisplayFor(model => item.ThreadPosts.Count);
+                }
+                else
+                {
+                    <h5>no posts yet</h5>
+                }
+            </td>
+            <td>
+                @if (item.UserId == Guid.Parse(User.Identity.GetUserId()))
+                {
+                    @Html.ActionLink("Edit| ", "Edit", new { id = item.Id })
+                    @Html.ActionLink("Details| ", "Details", new { id = item.Id })
+                    @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                }
+            </td>
+        </tr>
+    }
 
 </table>

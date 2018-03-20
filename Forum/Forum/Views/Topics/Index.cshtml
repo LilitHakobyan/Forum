@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Topics</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -14,21 +14,34 @@
         <th>
             @Html.DisplayNameFor(model => model.Name)
         </th>
+        <th>
+            <h5 style="font-weight: bold" >Threads count</h5>
+        </th>
+        <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @Html.RouteLink(item.Name, new { controller = "threads", action = "Index", id = item.Id })
-
-            @*@Html.DisplayFor(modelItem => item.Name)*@
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
-            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
-        </td>
-    </tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.RouteLink(item.Name, new { controller = "threads", action = "Index", id = item.Id , topicName=item.Name })
+            </td>
+            <td>
+                @if (item.TopicThreads.Count > 0)
+                {
+                    @Html.DisplayFor(model => item.TopicThreads.Count);
+                }
+                else
+                {
+                    <h5>no threads yet</h5>
+                }
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Details", "Details", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+            </td>
+        </tr>
+    }
 
 </table>

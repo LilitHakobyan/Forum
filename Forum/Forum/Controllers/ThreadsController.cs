@@ -18,14 +18,14 @@ namespace Forum.Controllers
         private ThreadRepasitory threadRepasitory = new ThreadRepasitory();
 
         private static int topicId;
+
+        private static string _topicName;
         // GET: Threads
-        public async Task<ActionResult> Index(int id)
+        public async Task<ActionResult> Index(int id,string topicName)
         {
             var views = await threadRepasitory.GetThreadsAsync(id);
-            //foreach (var view in views)
-            //{
-            //    view.ThreadPosts =await threadRepasitory.GetThreadPostsAsync(view.Id);
-            //}
+            _topicName = topicName;
+            ViewBag.TopicName = topicName;
             topicId = id;
             return View(views);
         }
