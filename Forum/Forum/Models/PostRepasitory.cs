@@ -10,7 +10,7 @@ namespace Forum.Models
 {
     public class PostRepasitory:IDisposable
     {
-        private Repasitory _repo;
+        private IRepasitory _repo;
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         public PostRepasitory()
         {

@@ -210,6 +210,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\IRepasitory.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\PostRepasitory.cs" />
     <Compile Include="Models\Repasitory.cs" />

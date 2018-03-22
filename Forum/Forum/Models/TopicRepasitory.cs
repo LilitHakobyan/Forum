@@ -13,7 +13,7 @@ namespace Forum.Models
 {
     public class TopicRepasitory:IDisposable
     {
-        private Repasitory _repo;
+        private IRepasitory _repo;
         private readonly string connectionString=ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         public TopicRepasitory()
         {

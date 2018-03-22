@@ -7,7 +7,7 @@ using System.Web;
 
 namespace Forum.Models
 {
-    public class Repasitory : IDisposable
+    public class Repasitory : IRepasitory
     {
         private SqlConnection _connection;
         private SqlTransaction _transaction;

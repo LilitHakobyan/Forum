@@ -8,9 +8,9 @@ using Forum.Entity;
 
 namespace Forum.Models
 {
-    public class ThreadRepasitory : IDisposable
+    public class ThreadRepasitory: IDisposable
     {
-        private Repasitory _repo;
+        private IRepasitory _repo;
         private readonly string connectionString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         public ThreadRepasitory()
         {
